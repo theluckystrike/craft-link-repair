@@ -1,0 +1,34 @@
+.craft-repair {
+    max-width: 850px;
+}
+
+.craft-repair-summary {
+    padding: var(--size-4-3);
+    background-color: var(--background-secondary);
+    border-radius: var(--radius-m);
+    font-weight: var(--font-semibold);
+}
+
+.craft-repair-list {
+    max-height: 310px;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    padding: var(--size-4-2);
+}
+
+.craft-repair-output {
+    font-weight: var(--font-semibold);
+    margin-top: var(--size-4-4);
+}
+
+.craft-repair-list code {
+    display: block;
+    color: var(--text-accent);
+    margin-bottom: var(--size-4-2);
+    white-space: pre-wrap;
+}
+
+.craft-repair-issue {
+    color: var(--text-warning);
+    overflow-wrap: anywhere;
+}
