@@ -2,6 +2,7 @@ import { PluginSettingTab, type SettingDefinitionItem } from 'obsidian';
 import { sponsorsSettingItems } from './license/github-obsidian';
 import { PRO_UI, isPro } from './pro';
 import type CraftLinkRepairPlugin from './main';
+import { helloSettingItems } from './hello/settings';
 
 export interface CraftLinkRepairSettings {
 	folder: string;
@@ -25,6 +26,11 @@ export class CraftLinkRepairSettingTab extends PluginSettingTab {
 	plugin: CraftLinkRepairPlugin;
 	constructor(app: ConstructorParameters<typeof PluginSettingTab>[0], plugin: CraftLinkRepairPlugin) { super(app, plugin); this.plugin = plugin; }
 	getSettingDefinitions(): SettingDefinitionItem[] {
+		// The product rows, then the "More from NoteMods" card (packages/hello).
+		return [...this.productSettingDefinitions(), ...helloSettingItems()];
+	}
+
+	productSettingDefinitions(): SettingDefinitionItem[] {
 		return [
 			{ name: 'Export folder', desc: 'Vault path to the unpacked Craft export. The preview command also accepts this path.', control: { type: 'text', key: 'folder', defaultValue: '' } },
 			{ type: 'group', heading: 'Output choices (Pro)', items: [

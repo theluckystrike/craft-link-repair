@@ -52,7 +52,7 @@ Turn on the optional automatic pass after you set the export folder. When source
 
 ## Install
 
-For manual installation, copy `main.js`, `manifest.json`, and `styles.css` into `<vault>/.obsidian/plugins/craft-link-repair/`. Enable Craft Link Repair in Community plugins. This version needs Obsidian 1.13.4 or later. After the publisher lists a release in the community directory, installation through Browse can use the same name.
+For manual installation, copy `main.js`, `manifest.json`, and `styles.css` into `<vault>/.obsidian/plugins/craft-link-repair/`. Enable Craft Link Repair in Community plugins. This version needs Obsidian 1.13.4 or later. You can also install it through Browse in Community plugins: search for Craft Link Repair.
 
 ## Usage
 
@@ -65,6 +65,8 @@ For manual installation, copy `main.js`, `manifest.json`, and `styles.css` into 
 If files change between preview and write, run the preview again. To redo a recorded copy, move that copy away from its destination first. The tool creates another copy; it does not update the existing one.
 
 ## Settings
+
+After a minor or major update, this plugin opens one What's new tab in the background. The tab and settings card suggest other NoteMods plugins and Zovo Chat and link to notemods.com for feedback ([privacy](https://notemods.com/privacy/)). The tab sends no data. Turn the tab off in Settings.
 
 The Export folder is a vault-relative path. Hidden folders, absolute paths, and parent traversal are rejected. Pro output must be separate from the export folder. This protects the source tree and prevents automatic scans from reading their own output.
 

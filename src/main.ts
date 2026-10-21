@@ -5,6 +5,8 @@ import { SPONSORS, bindPro, isPro, resetPro } from './pro';
 import { DEFAULT_SETTINGS, CraftLinkRepairSettingTab, normalizeSettings, type CraftLinkRepairSettings } from './settings';
 import { inside, planRepair, reportText, safePath, type RepairPlan, type SourceFile } from './repair';
 import { RepairModal } from './ui';
+import { setupHello } from './hello/index';
+import WHATS_NEW from './whats-new.json';
 
 export interface WriteResult { written: string[]; failures: string[]; report: string }
 export default class CraftLinkRepairPlugin extends Plugin {
@@ -18,6 +20,8 @@ export default class CraftLinkRepairPlugin extends Plugin {
 	lastResult: WriteResult | null = null;
 
 	async onload(): Promise<void> {
+		// First: "What's new" reads its state before the settings load (packages/hello). It does not wait.
+		setupHello(this, WHATS_NEW);
 		await this.loadSettings();
 		this.alive = true;
 		const pro = createGitHubSponsors(this.app, this.manifest.id, SPONSORS, this);

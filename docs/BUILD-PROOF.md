@@ -1,6 +1,6 @@
 # Craft Link Repair build proof
 
-The build was checked on 13 October 2026. The worktree is `/Users/mike/pf-wt/w12-craft-link-repair`. The branch is `run/w12-craft-link-repair`.
+The build was checked on 13 October 2026. The branch is `run/w12-craft-link-repair`.
 
 ## Product checks
 
