@@ -1,7 +1,8 @@
 import { Modal, Setting } from 'obsidian';
 import type CraftLinkRepairPlugin from './main';
 import type { RepairPlan } from './repair';
-import { isPro } from './pro';
+import { FREE_LIMIT } from './repair';
+import { PRO_LIMIT, isPro, proNotice } from './pro';
 
 export class RepairModal extends Modal {
 	plan: RepairPlan | null = null;
@@ -25,7 +26,11 @@ export class RepairModal extends Modal {
 				this.plan = plan;
 				this.plugin.settings.folder = plan.folder;
 				await this.plugin.saveSettings();
-				if (this.openState && serial === this.serial) this.showPlan(preview, plan);
+				if (this.openState && serial === this.serial) {
+					this.showPlan(preview, plan);
+					// The free limit blocks this pass. The notice says how to get Pro. Write copies stays disabled.
+					if (!isPro() && plan.copies.length > FREE_LIMIT) proNotice(PRO_LIMIT);
+				}
 			} catch (error) { if (this.openState && serial === this.serial) preview.setText(error instanceof Error ? error.message : String(error)); }
 			finally { b.setDisabled(false); }
 		}));

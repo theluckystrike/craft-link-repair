@@ -1,6 +1,7 @@
 // Pro through GitHub Sponsors (packages/license, github.ts). product.yaml pro: holds the same values; fx check compares them.
 // Every Pro check in the plugin calls isPro(); views redraw through onProChange(). main.ts binds the manager in onload.
 import type { SponsorsConfig, SponsorsManager } from './license/index';
+import { showProNotice } from './license/github-obsidian';
 
 export const SPONSORS: SponsorsConfig = {
 	// Public client id of the seller's OAuth App (device flow on, no client secret anywhere).
@@ -53,4 +54,16 @@ export function resetPro(): void {
 	unbind = null;
 	manager = null;
 	listeners.clear();
+}
+
+/** Lead of the notice for the Output folder, Date note folder and Date format rows. */
+export const PRO_OUTPUT = 'Output folder, date note folder and date format choices need Pro.';
+/** Lead of the notice for the Repair new exports row. */
+export const PRO_AUTO = 'Repair new exports needs Pro.';
+/** Lead of the notice after a free preview that has more copies than the free limit (repair.ts FREE_LIMIT). */
+export const PRO_LIMIT = 'A pass with more than 10 note copies needs Pro.';
+
+/** Shows the shared Pro notice: the lead, then the next step for this user. A free user gets a Sponsor on GitHub button. */
+export function proNotice(lead: string): void {
+	showProNotice(manager, lead);
 }

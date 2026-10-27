@@ -40,7 +40,7 @@ Missing page identifiers, conflicting metadata, and block targets appear in the 
 
 Pro removes the 10 note limit. Save a separate output folder to keep copies apart from the export. The copy tree keeps the source folder structure. Simple relative inline Markdown resource paths are rebased to their source locations; attachments stay in the export folder. Keep that folder if a copy uses its assets.
 
-Pro also adds a date note folder and three date formats: `YYYY-MM-DD`, `YYYY.MM.DD`, and `YYYY/MM/DD`. When Pro is off, the saved choices stay in settings and the repair uses the free defaults.
+Pro also adds a date note folder and three date formats: `YYYY-MM-DD`, `YYYY.MM.DD`, and `YYYY/MM/DD`. When Pro is off, the saved choices stay in settings and the repair uses the free defaults. Without Pro, these rows and a preview over the limit show a Sponsor on GitHub notice. The rows show the free defaults.
 
 <img src="https://raw.githubusercontent.com/theluckystrike/craft-link-repair/HEAD/docs/pro-options.png" alt="Saved output folder and date format controls enabled with a local sponsor fixture" width="720">
 
