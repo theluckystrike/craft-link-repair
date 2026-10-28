@@ -1,5 +1,5 @@
-import { PluginSettingTab, type SettingDefinitionItem } from 'obsidian';
-import { sponsorsSettingItems } from './license/github-obsidian';
+import { PluginSettingTab, type Notice, type SettingDefinitionItem } from 'obsidian';
+import { sponsorsSettingItems, redrawKeepFocus } from './license/github-obsidian';
 import { PRO_AUTO, PRO_OUTPUT, PRO_UI, isPro, proNotice } from './pro';
 import type CraftLinkRepairPlugin from './main';
 import { helloSettingItems } from './hello/settings';
@@ -23,6 +23,9 @@ export function normalizeSettings(saved: unknown): CraftLinkRepairSettings {
 	};
 }
 export class CraftLinkRepairSettingTab extends PluginSettingTab {
+	/** The last Pro notice of this tab and its lead. The same notice does not show again while it is open. */
+	private notice: Notice | null = null;
+	private noticeLead = '';
 	plugin: CraftLinkRepairPlugin;
 	constructor(app: ConstructorParameters<typeof PluginSettingTab>[0], plugin: CraftLinkRepairPlugin) { super(app, plugin); this.plugin = plugin; }
 	getSettingDefinitions(): SettingDefinitionItem[] {
@@ -50,12 +53,15 @@ export class CraftLinkRepairSettingTab extends PluginSettingTab {
 	async setControlValue(key: string, value: unknown): Promise<void> {
 		if (key !== 'folder' && !isPro()) {
 			// A free user can select the Pro rows: the notice says what needs Pro and how to get it. Nothing is saved.
-			proNotice(key === 'automatic' ? PRO_AUTO : PRO_OUTPUT);
+			// One notice at a time for the same Pro setting: a repeated key on the focused control adds no new notice.
+			const noticeLead = key === 'automatic' ? PRO_AUTO : PRO_OUTPUT;
+			if (!this.notice?.messageEl.isConnected || this.noticeLead !== noticeLead) {
+				this.notice = proNotice(noticeLead);
+				this.noticeLead = noticeLead;
+			}
 			// Obsidian does not draw a control again while it has the focus. Move the focus out, then draw the tab
 			// again, so the row shows the value in effect.
-			const active = this.containerEl.ownerDocument.activeElement as HTMLElement | null;
-			if (active && this.containerEl.contains(active)) active.blur();
-			this.update();
+			redrawKeepFocus(this);
 			return;
 		}
 		this.plugin.settings = normalizeSettings({ ...this.plugin.settings, [key]: value });

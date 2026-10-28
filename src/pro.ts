@@ -1,5 +1,6 @@
 // Pro through GitHub Sponsors (packages/license, github.ts). product.yaml pro: holds the same values; fx check compares them.
 // Every Pro check in the plugin calls isPro(); views redraw through onProChange(). main.ts binds the manager in onload.
+import type { Notice } from 'obsidian';
 import type { SponsorsConfig, SponsorsManager } from './license/index';
 import { showProNotice } from './license/github-obsidian';
 
@@ -64,6 +65,6 @@ export const PRO_AUTO = 'Repair new exports needs Pro.';
 export const PRO_LIMIT = 'A pass with more than 10 note copies needs Pro.';
 
 /** Shows the shared Pro notice: the lead, then the next step for this user. A free user gets a Sponsor on GitHub button. */
-export function proNotice(lead: string): void {
-	showProNotice(manager, lead);
+export function proNotice(lead: string): Notice | null {
+	return showProNotice(manager, lead);
 }
