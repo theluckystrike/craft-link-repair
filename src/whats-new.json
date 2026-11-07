@@ -1,10 +1,9 @@
 {
 	"id": "craft-link-repair",
 	"name": "Craft Link Repair",
-	"version": "1.1.2",
+	"version": "1.1.3",
 	"changes": [
-		"When the settings refuse a Pro choice, for example in Repair new exports (Pro), the keyboard focus now stays on that setting.",
-		"In a text field the focus leaves the field, as before."
+		"The Pro notice of Craft Link Repair now says that one payment turns on Pro in every NoteMods plugin."
 	],
 	"tip": "Inline day:// links become links to date notes. The repair does not create those notes, so create them after the pass.",
 	"thanks": "Hi, I am Michael, a solo developer in Poland. Craft Link Repair is one of over 100 small plugins that I make. Thank you for using it to keep your links working.",

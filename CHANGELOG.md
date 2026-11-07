@@ -1,5 +1,11 @@
 # craft-link-repair
 
+## 1.1.3
+
+### Patch Changes
+
+- ae29d99: The Pro notice of Craft Link Repair now says that one payment turns on Pro in every NoteMods plugin.
+
 ## 1.1.2
 
 ### Patch Changes

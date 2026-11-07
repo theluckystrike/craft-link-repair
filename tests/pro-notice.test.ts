@@ -10,7 +10,7 @@ import manifest from '../manifest.json';
 // A free user can select the 4 Pro rows of the settings tab, and can preview a pass with more than 10 note copies.
 // Each one shows the shared Pro notice with the "Sponsor on GitHub" button. Nothing is saved, and the rows show the
 // values in effect. A Pro user saves the same rows with no notice.
-const PITCH = 'Sponsor on GitHub, then sign in from the plugin settings.';
+const PITCH = 'One payment turns on Pro in every NoteMods plugin. Sponsor on GitHub, then sign in from the plugin settings.';
 const OUTPUT = 'Output folder, date note folder and date format choices need Pro.';
 const AUTO = 'Repair new exports needs Pro.';
 const LIMIT = 'A pass with more than 10 note copies needs Pro.';
