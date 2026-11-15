@@ -57,10 +57,21 @@ function rebase(url: string, source: string, destination: string): string {
 	return [...from.map(() => '..'), ...bits].join('/');
 }
 
+/** Front matter, fenced code, code spans, HTML comments and %% comments, left to right. Links there stay as they are. */
+export function protectedSpans(text: string): { index: number; text: string }[] {
+	// Front matter can only start the text, so it is read first, without the lookbehind (iOS before 16.4 has none).
+	// Group 1 never matches here; it keeps the numbers of the groups that follow (\3 and \4).
+	const frontMatter = /^---\r?\n[\s\S]*?\r?\n(?:---|\.\.\.)[^\n]*(?:\n|$)/.exec(text);
+	const protectedText = /((?!))|(^ {0,3}(`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:^ {0,3}\3[ \t\r]*(?:\n|$)|(?![\s\S])))|(`+)[^`]*?\4|<!--[\s\S]*?-->|%%[\s\S]*?%%/gm;
+	const spans: { index: number; text: string }[] = frontMatter ? [{ index: 0, text: frontMatter[0] }] : [];
+	protectedText.lastIndex = frontMatter ? frontMatter[0].length : 0;
+	for (let match = protectedText.exec(text); match; match = protectedText.exec(text)) spans.push({ index: match.index, text: match[0] });
+	return spans;
+}
+
 /** Supported inline links only. Protected text is retained byte for byte. */
 export function convertMarkdown(text: string, source: string, destination: string, map: Map<string, string>, dateFolder = '', dateFormat = 'YYYY-MM-DD'): { text: string; changes: LinkChange[]; issues: Issue[] } {
 	const changes: LinkChange[] = [], issues: Issue[] = [];
-	const protectedText = /((?<![\s\S])---\r?\n[\s\S]*?\r?\n(?:---|\.\.\.)[^\n]*(?:\n|$))|(^ {0,3}(`{3,}|~{3,})[^\n]*\n[\s\S]*?(?:^ {0,3}\3[ \t\r]*(?:\n|$)|(?![\s\S])))|(`+)[^`]*?\4|<!--[\s\S]*?-->|%%[\s\S]*?%%/gm;
 	const replace = (part: string): string => part.replace(/(!?)\[((?:\\.|[^\]\\])*)\]\(\s*(<?)([^\s<>)]*)(>?)\s*\)/g, (whole: string, embed: string, label: string, left: string, url: string, right: string, offset: number) => {
 		let escapeCount = 0;
 		for (let at = offset - 1; at >= 0 && part[at] === '\\'; at--) escapeCount++;
@@ -94,10 +105,9 @@ export function convertMarkdown(text: string, source: string, destination: strin
 		return `[[${target}|${label}]]`;
 	});
 	let output = '', end = 0;
-	for (const match of text.matchAll(protectedText)) {
-		const index = match.index;
-		output += replace(text.slice(end, index)) + match[0];
-		end = index + match[0].length;
+	for (const span of protectedSpans(text)) {
+		output += replace(text.slice(end, span.index)) + span.text;
+		end = span.index + span.text.length;
 	}
 	output += replace(text.slice(end));
 	return { text: output, changes, issues };

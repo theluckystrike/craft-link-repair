@@ -1,5 +1,6 @@
 import { afterEach, describe, it, expect, vi } from 'vitest';
 import { safePath, planRepair, convertMarkdown, reportText } from '../src/repair';
+import { budget } from './time-scale';
 
 const url = 'craftdocs://open?documentId=page';
 const link = `[Page](${url})`;
@@ -62,5 +63,5 @@ describe('Markdown protection', () => {
 	it('retains code in a large input', () => {
 		const text = ('```md\n'+link+'\n```\n').repeat(2000);
 		expect(convertMarkdown(text, 'Export/Page.md', 'Export/Page.repaired.md', map).text).toBe(text);
-	}, 30000);
+	}, budget(30000));
 });
